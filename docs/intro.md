@@ -6,6 +6,6 @@ sidebar_position: 1
 
 https://github.com/wonglok/effectnode-by-you
 
-It's awlays my dream to make Computer GraphicsVisual Effect (VFX) avaiable on the web.
+It's awlays my dream to make Computer Graphics Visual Effect (VFX) avaiable on the web.
 
 ![Effect Node Visual Programming](/visual-programming/demo.png)
