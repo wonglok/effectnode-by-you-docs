@@ -70,12 +70,15 @@ function Content() {
       flip: { value: 1 },
       time: { value: 1 },
       resolution: {
-        value: new Vector2(512, 512),
+        value: new Vector2(window.innerWidth, window.innerHeight),
       },
     };
   });
 
   useFrame((st, dt) => {
+    uniforms.resolution.value.x = window.innerWidth;
+    uniforms.resolution.value.y = window.innerHeight;
+
     uniforms.time.value += 0.017;
     if (getStatus()) {
       uniforms.flip.value = -1.0;
@@ -144,17 +147,24 @@ function Content() {
             vec2 uv = vUv;
 
             uv.x = 1.0 - uv.x;
+
+            float aspect = resolution.x / resolution.y;
+            if (aspect >= 1.0) {
+              uv.x *= 1.0 - aspect;
+            } else {
+              uv.y *= (1.0 + aspect) / aspect;
+            }
             if (flip == -1.0) {
               gl_FragColor = vec4(vec3(
-                -0.3 + 1.0 * pattern(uv * 5.0123 * 1.5 + -0.1111113 * cos(time * 1.0 * 0.05)),
-                -0.3 + 1.0 * pattern(uv * 5.0123 * 1.5 +  0.0 * cos(time * 1.0 * 0.05)),
-                -0.3 + 1.0 * pattern(uv * 5.0123 * 1.5 +  0.1111113 * cos(time * 1.0 * 0.05))
+                -0.3 + 1.0 * pattern(uv * 5.0123 * aspect + -0.1111113 * cos(time * 1.0 * 0.05)),
+                -0.3 + 1.0 * pattern(uv * 5.0123 * aspect +  0.0 * cos(time * 1.0 * 0.05)),
+                -0.3 + 1.0 * pattern(uv * 5.0123 * aspect +  0.1111113 * cos(time * 1.0 * 0.05))
               ) * diffuse, 1.0);
             } else {
               gl_FragColor = vec4(vec3(
-                1.0 - 0.7 * pattern(uv * 5.0123 * 1.5 + -0.1111113 * cos(time * 1.0 * 0.05)),
-                1.0 - 0.7 * pattern(uv * 5.0123 * 1.5 +  0.0 * cos(time * 1.0 * 0.05)),
-                1.0 - 0.7 * pattern(uv * 5.0123 * 1.5 +  0.1111113 * cos(time * 1.0 * 0.05))
+                1.0 - 0.7 * pattern(uv * 5.0123 * aspect + -0.1111113 * cos(time * 1.0 * 0.05)),
+                1.0 - 0.7 * pattern(uv * 5.0123 * aspect +  0.0 * cos(time * 1.0 * 0.05)),
+                1.0 - 0.7 * pattern(uv * 5.0123 * aspect +  0.1111113 * cos(time * 1.0 * 0.05))
               ) * diffuse, 1.0);
             }
 
@@ -186,9 +196,10 @@ export default function Home() {
       >
         <Canvas
           className="h-full w-full "
-          dpr={
-            (typeof window !== "undefined" && window.devicePixelRatio) || 1.0
-          }
+          dpr={0.5}
+          // dpr={
+          //   (typeof window !== "undefined" && window.devicePixelRatio) || 1.0
+          // }
         >
           {typeof window !== "undefined" && <Content></Content>}
         </Canvas>
