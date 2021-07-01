@@ -5,13 +5,14 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 module.exports = {
   title: "Effect Node by You",
   tagline: "VFX Website Boilerplate with Visual Programming & more...",
-  url: "https://your-docusaurus-test-site.com",
-  baseUrl: "/",
+  url: "https://wonglok.github.io/",
+  trailingSlash: true,
+  baseUrl: "/effectnode-by-you-docs/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
-  organizationName: "facebook", // Usually your GitHub org/user name.
-  projectName: "docusaurus", // Usually your repo name.
+  organizationName: "wonglok", // Usually your GitHub org/user name.
+  projectName: "effectnode-by-you-docs", // Usually your repo name.
   themeConfig: {
     navbar: {
       title: "Effect Node",
