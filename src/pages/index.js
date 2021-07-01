@@ -15,19 +15,16 @@ import { Plane } from "@react-three/drei";
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
 
-  let [st, setST] = useState(
-    document.documentElement.getAttribute("data-theme") === "dark"
-  );
+  let getStatus = (v) =>
+    typeof window !== "undefined" &&
+    document.documentElement.getAttribute("data-theme") === "dark";
+  let [st, setST] = useState(getStatus());
   useEffect(() => {
-    // document.documentElement.getAttribute("data-theme") === "dark";
+    // getStatus();
     let ttt = setInterval(() => {
       //
-
-      if (
-        (document.documentElement.getAttribute("data-theme") === "dark") !==
-        st
-      ) {
-        setST(document.documentElement.getAttribute("data-theme") === "dark");
+      if (getStatus() !== st) {
+        setST(getStatus());
       }
     }, 100);
     return () => {
