@@ -38,7 +38,7 @@ module.exports = {
         },
         {
           href: "https://github.com/wonglok/effectnode-by-you",
-          label: "Github",
+          label: "Download on Github",
           position: "right",
         },
       ],
