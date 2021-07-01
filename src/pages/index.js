@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
@@ -14,6 +14,27 @@ import { Plane } from "@react-three/drei";
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
+
+  let [st, setST] = useState(
+    document.documentElement.getAttribute("data-theme") === "dark"
+  );
+  useEffect(() => {
+    // document.documentElement.getAttribute("data-theme") === "dark";
+    let ttt = setInterval(() => {
+      //
+
+      if (
+        (document.documentElement.getAttribute("data-theme") === "dark") !==
+        st
+      ) {
+        setST(document.documentElement.getAttribute("data-theme") === "dark");
+      }
+    }, 100);
+    return () => {
+      clearInterval(ttt);
+    };
+  });
+
   return (
     <header
       style={{ backgroundColor: "rgba(255,255,255,0.5)" }}
@@ -31,7 +52,11 @@ function HomepageHeader() {
           </Link>
         </div>
         <div style={{ marginTop: "32px" }}>
-          <img src="/img/continue-logo-black.svg"></img>
+          {st ? (
+            <img src="/img/continue-logo.svg"></img>
+          ) : (
+            <img src="/img/continue-logo-black.svg"></img>
+          )}
         </div>
       </div>
     </header>

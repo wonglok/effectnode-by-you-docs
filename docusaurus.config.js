@@ -26,11 +26,11 @@ module.exports = {
           position: "left",
           label: "Quick Start Docs",
         },
-        {
-          to: "/vp-api",
-          label: "Visual Programming APIs",
-          position: "left",
-        },
+        // {
+        //   to: "/vp-api",
+        //   label: "Visual Programming APIs",
+        //   position: "left",
+        // },
         {
           to: "/blog",
           label: "Blog",

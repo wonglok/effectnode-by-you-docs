@@ -129,6 +129,9 @@ export class ShaderCubeChrome {
       time: {
         value: 0,
       },
+      flip: {
+        value: 0,
+      },
       resolution: {
         value: new Vector2(this.resX, this.resX),
       },
@@ -238,16 +241,27 @@ export class ShaderCubeChrome {
           //   return vec4(colour, 1.0);
           // }
 
+          uniform float flip;
           void main (void) {
             vec2 uv = gl_FragCoord.xy / resolution.xy;
 
             // vec4 water = waterwaves(gl_FragCoord.xy, vec2(resolution.xy), time * 0.05);
 
-            gl_FragColor = vec4(vec3(
-              1.0 - 0.7 * pattern(uv * 15.0123 + -0.0000001 * cos(time * 0.05)),
-              1.0 - 0.7 * pattern(uv * 15.0123 +  0.0 * cos(time * 0.05)),
-              1.0 - 0.7 * pattern(uv * 15.0123 +  0.0000001 * cos(time * 0.05))
-            ) * diffuse, 1.0);
+
+
+            if (flip == -1.0) {
+              gl_FragColor = vec4(vec3(
+                -0.3 + 1.0 * pattern(uv * 15.0123 + -0.1111113 * cos(time * 0.05)),
+                -0.3 + 1.0 * pattern(uv * 15.0123 +  0.0 * cos(time * 0.05)),
+                -0.3 + 1.0 * pattern(uv * 15.0123 +  0.1111113 * cos(time * 0.05))
+              ) * diffuse, 1.0);
+            } else {
+              gl_FragColor = vec4(vec3(
+                1.0 - 0.7 * pattern(uv * 15.0123 + -0.1111113 * cos(time * 0.05)),
+                1.0 - 0.7 * pattern(uv * 15.0123 +  0.0 * cos(time * 0.05)),
+                1.0 - 0.7 * pattern(uv * 15.0123 +  0.1111113 * cos(time * 0.05))
+              ) * diffuse, 1.0);
+            }
 
             // gl_FragColor.rgb *= gl_FragColor.rgb;
             // gl_FragColor = water;
@@ -266,6 +280,11 @@ export class ShaderCubeChrome {
 
     this.compute = ({ time }) => {
       uniforms.time.value = time || window.performance.now() * 0.0001;
+
+      uniforms.flip.value = 1.0;
+      if (document.documentElement.getAttribute("data-theme") === "dark") {
+        uniforms.flip.value = -1.0;
+      }
       let camera = this.camera;
       let renderer = this.renderer;
       let scene = this.scene;

@@ -5,7 +5,8 @@ import styles from "./HomepageFeatures.module.css";
 const FeatureList = [
   {
     title: "VFX on Web",
-    Svg: require("../../static/img/undraw_docusaurus_mountain.svg").default,
+    Svg: require("../../static/landing-page-illustrations/undraw_mobile_web_2g8b.svg")
+      .default,
     description: (
       <>
         Our dream is to bring VFX to the web. <br />
@@ -18,7 +19,8 @@ const FeatureList = [
   },
   {
     title: "Decentralised Ownership",
-    Svg: require("../../static/img/undraw_docusaurus_tree.svg").default,
+    Svg: require("../../static/landing-page-illustrations/undraw_asset_selection_ix3v.svg")
+      .default,
     description: (
       <>
         Effect Node lets you store your own code in your code base and your json
@@ -31,7 +33,8 @@ const FeatureList = [
   },
   {
     title: "Easy & Dreamy Code API",
-    Svg: require("../../static/img/undraw_docusaurus_react.svg").default,
+    Svg: require("../../static/landing-page-illustrations/undraw_Goals_re_lu76.svg")
+      .default,
     description: (
       <>
         We try our best to simplify the most frequnetly used things in visual
@@ -45,7 +48,8 @@ const FeatureList = [
 const SubFeatureList = [
   {
     title: "VFX Libray Share",
-    Svg: require("../../static/img/undraw_docusaurus_mountain.svg").default,
+    Svg: require("../../static/landing-page-illustrations/undraw_dreamer_gxxi.svg")
+      .default,
     description: (
       <>
         We love sharing VFX codes with people because it makes the web more
@@ -56,7 +60,8 @@ const SubFeatureList = [
   },
   {
     title: "Quality & Recognition",
-    Svg: require("../../static/img/undraw_docusaurus_tree.svg").default,
+    Svg: require("../../static/landing-page-illustrations/undraw_awards_fieb.svg")
+      .default,
     description: (
       <>
         Our invetor of EffectNode, Lok Lok, has focused on this software since
@@ -68,7 +73,8 @@ const SubFeatureList = [
   },
   {
     title: "Visual Prorgramming CMS",
-    Svg: require("../../static/img/undraw_docusaurus_react.svg").default,
+    Svg: require("../../static/landing-page-illustrations/undraw_Mind_map_re_nlb6.svg")
+      .default,
     description: (
       <>
         We include a Full-Featrued Visual Programming CMS for you in the
