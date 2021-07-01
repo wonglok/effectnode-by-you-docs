@@ -282,7 +282,10 @@ export class ShaderCubeChrome {
       uniforms.time.value = time || window.performance.now() * 0.0001;
 
       uniforms.flip.value = 1.0;
-      if (document.documentElement.getAttribute("data-theme") === "dark") {
+      if (
+        typeof window !== "undefined" &&
+        document.documentElement.getAttribute("data-theme") === "dark"
+      ) {
         uniforms.flip.value = -1.0;
       }
       let camera = this.camera;

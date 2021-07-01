@@ -9,15 +9,15 @@ import HomepageFeatures, {
 } from "../components/HomepageFeatures";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ShaderCubeChrome } from "../shader/ShaderCubeChrome";
-import { Color } from "three";
+import { Color, Vector2 } from "three";
 import { Plane } from "@react-three/drei";
+let getStatus = (v) =>
+  typeof window !== "undefined" &&
+  document.documentElement.getAttribute("data-theme") === "dark";
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
 
-  let getStatus = (v) =>
-    typeof window !== "undefined" &&
-    document.documentElement.getAttribute("data-theme") === "dark";
   let [st, setST] = useState(getStatus());
   useEffect(() => {
     // getStatus();
@@ -62,26 +62,107 @@ function HomepageHeader() {
 
 function Content() {
   let { viewport, gl } = useThree();
-  let rainbow = useMemo(() => {
-    let rainbow = new ShaderCubeChrome({
-      renderer: gl,
-      res: 1024,
-      color: new Color("#ffffff"),
-    });
-    return rainbow;
+
+  let { size } = useThree();
+
+  let [uniforms] = useState(() => {
+    return {
+      flip: { value: 1 },
+      time: { value: 1 },
+      resolution: {
+        value: new Vector2(512, 512),
+      },
+    };
   });
 
   useFrame((st, dt) => {
-    rainbow.compute({ time: st.clock.getElapsedTime() });
+    uniforms.time.value += 0.017;
+    if (getStatus()) {
+      uniforms.flip.value = -1.0;
+    } else {
+      uniforms.flip.value = 1.0;
+    }
   });
 
   return (
     <group>
-      {rainbow && (
+      {
         <Plane args={[viewport.width, viewport.height * 2, 2, 2]}>
-          <meshBasicMaterial envMap={rainbow.out.envMap}></meshBasicMaterial>
+          <shaderMaterial
+            uniforms={uniforms}
+            vertexShader={`
+
+            varying vec2 vUv;
+
+
+            void main (void) {
+              gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+              vUv = uv;
+            }
+
+            `}
+            fragmentShader={`
+
+          uniform float flip;
+          uniform float time;
+          uniform vec2 resolution;
+          varying vec2 vUv;
+
+          const mat2 m = mat2( 0.80,  0.60, -0.60,  0.80 );
+
+          float noise( in vec2 p ) {
+            return sin(p.x)*sin(p.y);
+          }
+
+          float fbm4( vec2 p ) {
+              float f = 0.0;
+              f += 0.5000 * noise( p ); p = m * p * 2.02;
+              f += 0.2500 * noise( p ); p = m * p * 2.03;
+              f += 0.1250 * noise( p ); p = m * p * 2.01;
+              f += 0.0625 * noise( p );
+              return f / 0.9375;
+          }
+
+          float fbm6( vec2 p ) {
+              float f = 0.0;
+              f += 0.500000*(0.5 + 0.5 * noise( p )); p = m*p*2.02;
+              f += 0.250000*(0.5 + 0.5 * noise( p )); p = m*p*2.03;
+              f += 0.125000*(0.5 + 0.5 * noise( p )); p = m*p*2.01;
+              f += 0.062500*(0.5 + 0.5 * noise( p )); p = m*p*2.04;
+              f += 0.031250*(0.5 + 0.5 * noise( p )); p = m*p*2.01;
+              f += 0.015625*(0.5 + 0.5 * noise( p ));
+              return f/0.96875;
+          }
+
+          float pattern (vec2 p) {
+            float vout = fbm4( p + time + fbm6(  p + fbm4( p + time )) );
+            return abs(vout);
+          }
+          void main (void) {
+            vec3 diffuse = vec3(1.0, 1.0, 1.0);
+
+            vec2 uv = vUv;
+
+            uv.x = 1.0 - uv.x;
+            if (flip == -1.0) {
+              gl_FragColor = vec4(vec3(
+                -0.3 + 1.0 * pattern(uv * 5.0123 * 1.5 + -0.1111113 * cos(time * 1.0 * 0.05)),
+                -0.3 + 1.0 * pattern(uv * 5.0123 * 1.5 +  0.0 * cos(time * 1.0 * 0.05)),
+                -0.3 + 1.0 * pattern(uv * 5.0123 * 1.5 +  0.1111113 * cos(time * 1.0 * 0.05))
+              ) * diffuse, 1.0);
+            } else {
+              gl_FragColor = vec4(vec3(
+                1.0 - 0.7 * pattern(uv * 5.0123 * 1.5 + -0.1111113 * cos(time * 1.0 * 0.05)),
+                1.0 - 0.7 * pattern(uv * 5.0123 * 1.5 +  0.0 * cos(time * 1.0 * 0.05)),
+                1.0 - 0.7 * pattern(uv * 5.0123 * 1.5 +  0.1111113 * cos(time * 1.0 * 0.05))
+              ) * diffuse, 1.0);
+            }
+
+          }
+          `}
+          ></shaderMaterial>
         </Plane>
-      )}
+      }
     </group>
   );
 }
@@ -109,7 +190,7 @@ export default function Home() {
             (typeof window !== "undefined" && window.devicePixelRatio) || 1.0
           }
         >
-          <Content></Content>
+          {typeof window !== "undefined" && <Content></Content>}
         </Canvas>
       </div>
 
