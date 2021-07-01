@@ -7,7 +7,7 @@ module.exports = {
   tagline: "VFX Website Boilerplate with Visual Programming & more...",
   url: "https://wonglok.github.io/",
   trailingSlash: true,
-  baseUrl: "/effectnode-by-you-docs/",
+  baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
