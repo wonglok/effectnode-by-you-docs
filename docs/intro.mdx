@@ -1,0 +1,134 @@
+---
+sidebar_position: 1
+---
+
+# Quick Start
+
+## 1st Download Effect Node
+
+https://github.com/wonglok/effectnode-by-you
+
+It's awlays my dream to make Computer Graphics Visual Effect (VFX) avaiable on the web.
+
+![Effect Node Visual Programming](/visual-programming/demo.png)
+[(Full image link)](/visual-programming/demo.png)
+
+## 2nd Install Deps
+
+`yarn install; yarn dev;`
+
+## 3rd Where do I start editing to try things out?
+
+`/vfx-nodes/lok.myFirstNode.js`
+
+You can try to change the color of the wire or the radisu of the spehre.
+
+:::success ar haaa
+
+The code logic is defined in your own codebase, even you are currently using the example graph json.
+
+:::
+
+:::note
+
+Graph json dont have code logic, it only have relationship logic.
+
+How do I use my own graph? Let's continue in step _4_.
+
+:::
+
+## 4th Use my own Visual Prgraomming CMS
+
+### By updating the firebase config
+
+go to file `vfx-cms/CONFIG.js`
+
+```js
+export const firebaseConfig = {
+  apiKey: "____________",
+  authDomain: "____________",
+  databaseURL: "____________",
+  projectId: "____________",
+  storageBucket: "____________",
+  messagingSenderId: "____________",
+  appId: "____________",
+  measurementId: "____________",
+};
+```
+
+## 5th Setup Visual Programming Security Rules
+
+Go to your firebase database console and copy and paste the rules JSON to your firebase database
+
+```json
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    //
+    //
+    "profile": {
+      "$owner_user_id": {
+        "canvas": {
+          ".read": "auth !== null",
+          "$canvasID": {
+            ".write": "auth !== null && auth.uid === $owner_user_id",
+            "shareACL": {
+              ".write": "auth !== null && auth.uid === $owner_user_id"
+            },
+            "ownerACL": {
+              ".write": "auth !== null && auth.uid === $owner_user_id"
+            }
+          }
+        }
+      }
+    },
+
+    "canvas": {
+      "$canvasID": {
+        "$ownerID": {
+          ".read": true,
+          ".write": "auth !== null && auth.uid === $ownerID || auth !== null && root.child('profile').child($ownerID).child('canvas').child($canvasID).child('shareACL').hasChild(auth.uid)"
+        }
+      }
+    }
+  }
+}
+```
+
+## 7th Create your own Canvas
+
+1. visit http://localhost:3000/effectnode
+
+2. login
+
+3. createa a new logic graph.
+
+<img src="/img/quickstart/logic-graph-creation.png" />
+
+4. click the laptop icon to start.
+
+5. add `lok.myFirstNode` and `lok.mySecondNode` to the gird floor and connect using `purple output port 0` to the `green input port 0`
+
+<img src="/img/quickstart/your-first-graph.png" />
+
+## 7th Run your own Canvas
+
+go to `/pages/index.js` and then change the ID to your own canvas runtime ID.
+
+<img src="/img/quickstart/logic-id.png" />
+
+```js
+export async function getStaticProps(context) {
+  return {
+    props: {
+      graphA: await getEffectNodeData(`_____CHANGE_IT_TO_YOURS_____`), //
+    },
+  };
+}
+```
+
+## 8th Enjoy your new site!
+
+[http://localhost:3000/](http://localhost:3000/)
