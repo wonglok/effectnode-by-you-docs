@@ -159,15 +159,15 @@ function Content() {
             }
             if (flip == -1.0) {
               gl_FragColor = vec4(vec3(
-                -0.3 + 1.0 * pattern(uv * 5.0123 * aspect + -0.1111113 * cos(time * 1.0 * 0.05)),
+                -0.3 + 1.0 * pattern(uv * 5.0123 * aspect + -0.173333 * cos(time * 1.0 * 0.05)),
                 -0.3 + 1.0 * pattern(uv * 5.0123 * aspect +  0.0 * cos(time * 1.0 * 0.05)),
-                -0.3 + 1.0 * pattern(uv * 5.0123 * aspect +  0.1111113 * cos(time * 1.0 * 0.05))
+                -0.3 + 1.0 * pattern(uv * 5.0123 * aspect +  0.173333 * cos(time * 1.0 * 0.05))
               ) * diffuse, 1.0);
             } else {
               gl_FragColor = vec4(vec3(
-                1.0 - 0.7 * pattern(uv * 5.0123 * aspect + -0.1111113 * cos(time * 1.0 * 0.05)),
+                1.0 - 0.7 * pattern(uv * 5.0123 * aspect + -0.173333 * cos(time * 1.0 * 0.05)),
                 1.0 - 0.7 * pattern(uv * 5.0123 * aspect +  0.0 * cos(time * 1.0 * 0.05)),
-                1.0 - 0.7 * pattern(uv * 5.0123 * aspect +  0.1111113 * cos(time * 1.0 * 0.05))
+                1.0 - 0.7 * pattern(uv * 5.0123 * aspect +  0.173333 * cos(time * 1.0 * 0.05))
               ) * diffuse, 1.0);
             }
 
