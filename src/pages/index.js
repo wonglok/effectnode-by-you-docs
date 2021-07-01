@@ -146,28 +146,28 @@ function Content() {
 
             vec2 uv = vUv;
 
-            uv.x = 1.0 - uv.x;
-
             float aspect = resolution.x / resolution.y;
-            if (aspect >= 1.0) {
-              uv.x *= (1.0 + aspect) / aspect;
 
+            if (aspect > 1.0) {
+              uv.xy *= aspect;
+            } else if (aspect < 1.0) {
+              uv.y *= 2.0 / aspect;
               uv.xy *= 0.5;
             } else {
-              // aspect = 1.0 / aspect;
-              uv.y *= (1.0 + aspect) / aspect;
+
             }
+
             if (flip == -1.0) {
               gl_FragColor = vec4(vec3(
-                -0.3 + 1.0 * pattern(uv * 5.0123 * aspect + -0.173333 * cos(time * 1.0 * 0.05)),
-                -0.3 + 1.0 * pattern(uv * 5.0123 * aspect +  0.0 * cos(time * 1.0 * 0.05)),
-                -0.3 + 1.0 * pattern(uv * 5.0123 * aspect +  0.173333 * cos(time * 1.0 * 0.05))
+                -0.3 + 1.0 * pattern(uv * 5.0123 + -0.173333 * cos(time * 1.0 * 0.05)),
+                -0.3 + 1.0 * pattern(uv * 5.0123 +  0.0 * cos(time * 1.0 * 0.05)),
+                -0.3 + 1.0 * pattern(uv * 5.0123 +  0.173333 * cos(time * 1.0 * 0.05))
               ) * diffuse, 1.0);
             } else {
               gl_FragColor = vec4(vec3(
-                1.0 - 0.7 * pattern(uv * 5.0123 * aspect + -0.173333 * cos(time * 1.0 * 0.05)),
-                1.0 - 0.7 * pattern(uv * 5.0123 * aspect +  0.0 * cos(time * 1.0 * 0.05)),
-                1.0 - 0.7 * pattern(uv * 5.0123 * aspect +  0.173333 * cos(time * 1.0 * 0.05))
+                1.0 - 0.7 * pattern(uv * 5.0123 + -0.173333 * cos(time * 1.0 * 0.05)),
+                1.0 - 0.7 * pattern(uv * 5.0123 +  0.0 * cos(time * 1.0 * 0.05)),
+                1.0 - 0.7 * pattern(uv * 5.0123 +  0.173333 * cos(time * 1.0 * 0.05))
               ) * diffuse, 1.0);
             }
 
