@@ -150,8 +150,11 @@ function Content() {
 
             float aspect = resolution.x / resolution.y;
             if (aspect >= 1.0) {
-              uv.x *= 1.0 - aspect;
+              uv.x *= (1.0 + aspect) / aspect;
+
+              uv.xy *= 0.5;
             } else {
+              // aspect = 1.0 / aspect;
               uv.y *= (1.0 + aspect) / aspect;
             }
             if (flip == -1.0) {
@@ -178,10 +181,10 @@ function Content() {
 }
 
 export default function Home() {
-  const { siteConfig } = useDocusaurusContext();
+  // const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title={`Docs for ${siteConfig.title}`}
+      title={`Effect Node For You - Documentation Site`}
       description="Description will go into a meta tag in <head />"
     >
       <div
