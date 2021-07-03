@@ -124,3 +124,32 @@ export async function effect({ node, mini }) {
   //
 }
 ```
+
+## How to use React Three Fiber Components?
+
+```js
+export async function effect({ node, mini }) {
+  //
+
+  mini.set(
+    "MyOwnComponentABC",
+    <mesh>
+      <boxBufferGeometry args={[3, 3, 3, 2, 2, 2]}></boxBufferGeometry>
+      <meshBasicMaterial wireframe={true}></meshBasicMaterial>
+    </mesh>
+  );
+}
+```
+
+```js
+let [myInst, setCompos] = useState(() => {
+  return <group></group>;
+});
+
+let runtime = new ENRuntime({ json, codes: getCodes() });
+runtime.mini.get("MyOwnComponentABC").then((v) => {
+  setCompos(v);
+});
+
+return <group>{myInst}</group>;
+```
