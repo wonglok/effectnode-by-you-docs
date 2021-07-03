@@ -1,0 +1,126 @@
+---
+sidebar_position: 3
+---
+
+# Dream Code API
+
+## Start a Runtime
+
+Inside: `/pages/index.js`
+
+```js
+// graph json from firebase
+let json = {
+  /* ... */
+};
+
+// vfx-nodes folder logic codes
+let getCodes = () => {
+  /* ... */
+};
+
+let runtime = new ENRuntime({ json, codes: getCodes() });
+
+// make the onloop works
+useFrame(() => {
+  runtime.mini.work();
+});
+```
+
+## Import Paramters into the Runtime
+
+Inside: /pages/index.js
+
+```js
+//...
+let { scene, gl } = useThree();
+
+let runtime = new ENRuntime({ json, codes: getCodes() });
+
+// import
+runtime.mini.set("scene", scene);
+runtime.mini.set("renderer", gl);
+// etc...
+```
+
+## Simple ThreeJS
+
+Inside: /pages/index.js
+
+```js
+export async function effect({ node, mini }) {
+  // automatic module resolution
+  let scene = await mini.ready.scene;
+
+  // make a box
+  let box = new Mesh(
+    new BoxBufferGeometry(2, 2, 2),
+    new MeshBasicMaterial({ wireframe: true })
+  );
+
+  // add to scene and auto cleanup
+  scene.add(box);
+  mini.onClean(() => {
+    scene.remove(box);
+  });
+
+  // animation
+  mini.onLoop(() => {
+    box.rotation.y += 0.01;
+  });
+}
+```
+
+## Simple Signal Input
+
+```js
+export async function effect({ node, mini }) {
+  node.in0.stream((value) => {
+    console.log("listening input 0 stream", value);
+  });
+
+  node.in1.stream((value) => {
+    console.log("listening input 1 stream", value);
+  });
+}
+```
+
+## Simple Signal Output
+
+```js
+export async function effect({ node, mini }) {
+  // sending signal out of outout0
+  node.out0.pulse({
+    myData: 123,
+    myDear: 123,
+  });
+
+  // sending signal out of outout1
+  node.out1.pulse({
+    myData: 123,
+    myDear: 123,
+  });
+}
+```
+
+## Auto Resize RenderTarget
+
+```js
+export async function effect({ node, mini }) {
+  let gl = mini.ready.gl;
+
+  // RenderTarget use case
+  let target = new WebGLRenderTarget();
+  mini.onClean(() => {
+    target.dispose();
+  });
+  mini.onResize(() => {
+    //
+    let dpi = gl.renderer.getPixelRatio();
+    target.setSize(window.innerWidth * dpi, window.innerHeight * dpi);
+  });
+
+  //
+  //
+}
+```
