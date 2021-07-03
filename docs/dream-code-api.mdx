@@ -2,11 +2,13 @@
 sidebar_position: 3
 ---
 
-# Dream Code API
+# Effect Node APIs
 
 ## Start a Runtime
 
 Inside: `/pages/index.js`
+
+(Concept Reference)
 
 ```js
 // graph json from firebase
@@ -31,6 +33,8 @@ useFrame(() => {
 
 Inside: /pages/index.js
 
+(Concept Reference)
+
 ```js
 //...
 let { scene, gl } = useThree();
@@ -46,6 +50,8 @@ runtime.mini.set("renderer", gl);
 ## Simple ThreeJS
 
 Inside: /pages/index.js
+
+(Concept Reference)
 
 ```js
 export async function effect({ node, mini }) {
