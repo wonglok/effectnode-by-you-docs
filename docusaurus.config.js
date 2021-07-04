@@ -102,13 +102,13 @@ module.exports = {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           editUrl:
-            "https://github.com/facebook/docusaurus/edit/master/website/",
+            "https://github.com/wonglok/effectnode-by-you-docs/edit/master/docs/",
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            "https://github.com/facebook/docusaurus/edit/master/website/blog/",
+            "https://github.com/wonglok/effectnode-by-you-docs/edit/master/blog/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
